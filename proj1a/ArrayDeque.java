@@ -14,9 +14,12 @@ public class ArrayDeque<T> {
 
     /* Resizes the underlying array deque to the target capacity.*/
     private void resize(int capacity) {
-        System.out.println("Resize method is called!");
         T[] temp = (T[]) new Object[capacity];
-        if (minusOne(nextLast) >= nextFirst || plusOne(nextFirst) <= nextLast) {
+        System.arraycopy(items, plusOne(nextFirst), temp, 1, items.length - nextFirst -1);
+        if (nextFirst != items.length - 1 && items.length - nextFirst -1 < size) {
+            System.arraycopy(items, 0, temp, items.length - nextFirst, nextLast);
+        }
+        /*if (minusOne(nextLast) >= nextFirst || plusOne(nextFirst) <= nextLast) {
             System.arraycopy(items, plusOne(nextFirst), temp, plusOne(nextFirst), size);
             nextLast = (nextFirst + size) % (capacity - 1);
         } else {
@@ -24,9 +27,10 @@ public class ArrayDeque<T> {
             int length = size - nextLast;
             System.arraycopy(items, nextFirst + 1, temp, capacity - length, length);
             nextFirst = capacity - length - 1;
-        }
+        }*/
         items = temp;
-        System.out.println("Now the length is: " + items.length);
+        nextFirst = 0;
+        nextLast = size + 1;
     }
 
     /* Computes the index before a given index.*/
@@ -86,8 +90,8 @@ public class ArrayDeque<T> {
         items[plusOne(nextFirst)] = null;
         nextFirst = plusOne(nextFirst);
         size -= 1;
-        if (size < 0.25*items.length && items.length != 8) {
-            resize((int) (0.5*items.length));
+        if (size < 0.25 * items.length && items.length != 8) {
+            resize((int) (0.5 * items.length));
         }
         return p;
     }
@@ -101,20 +105,10 @@ public class ArrayDeque<T> {
         items[minusOne(nextLast)] = null;
         nextLast = minusOne(nextLast);
         size -= 1;
-        if (size < 0.25*items.length && items.length != 8) {
-            resize((int) (0.5*items.length));
+        if (size < 0.25 * items.length && items.length != 8) {
+            resize((int) (0.5 * items.length));
         }
         return p;
-    }
-
-    /* Returns the item from the last of the list.*/
-    public T getLast() {
-        return items[minusOne(nextLast)];
-    }
-
-    /* Returns the item from the first of the list.*/
-    public T getFirst() {
-        return items[plusOne(nextFirst)];
     }
 
     /* Gets the item with required index.*/
