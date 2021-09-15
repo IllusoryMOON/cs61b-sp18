@@ -1,9 +1,9 @@
 public class LinkedListDeque<T> {
 
     private class Node {
-        public Node front;
-        public T item;
-        public Node next;
+        private Node front;
+        private T item;
+        private Node next;
 
         public Node(Node f, T i, Node n) {
             front = f;
@@ -21,16 +21,6 @@ public class LinkedListDeque<T> {
         sentinel.next = sentinel;
         sentinel.front = sentinel;
         size = 0;
-    }
-
-    /* construct the first node */
-    public LinkedListDeque(T item) {
-        sentinel = new Node(null, (T) new Object(), null);
-        sentinel.next = sentinel;
-        sentinel.front = sentinel;
-        sentinel.next = new Node(sentinel, item, sentinel);
-        sentinel.front = sentinel.next;
-        size = 1;
     }
 
     /* Adds an item of type T to the front of the deque. */
@@ -117,8 +107,7 @@ public class LinkedListDeque<T> {
                 p = p.front;
                 step -= 1;
             }
-        }
-        else {
+        } else {
             while (index >= 0) {
                 p = p.next;
                 index -= 1;
@@ -128,7 +117,7 @@ public class LinkedListDeque<T> {
     }
 
     /* Same as get, but uses recursion. */
-    public T getRecursive(int index) {
+    private T getRecursive(int index) {
         if (index > size - 1 || index < 0) {
             return null;
         }
@@ -138,11 +127,10 @@ public class LinkedListDeque<T> {
 
     /* Helper method */
     public T getRecursive(Node n, int index) {
-        if (index == 0){
+        if (index == 0) {
             return n.item;
-        }
-        else {
-            index --;
+        } else {
+            index--;
             n = n.next;
         }
         return getRecursive(n, index);

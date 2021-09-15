@@ -1,12 +1,12 @@
-public class ArrayDeque<Item> {
-    private Item[] items;
+public class ArrayDeque<T> {
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
     /* Creates an empty array deque. */
     public ArrayDeque() {
-        items = (Item[]) new Object[8];
+        items = (T[]) new Object[8];
         size = 0;
         nextFirst = 4;
         nextLast = 5;
@@ -15,34 +15,34 @@ public class ArrayDeque<Item> {
     /* Resizes the underlying array deque to the target capacity.*/
     private void resize(int capacity) {
         System.out.println("Resize method is called!");
-        Item[] temp = (Item[]) new Object[capacity];
+        T[] temp = (T[]) new Object[capacity];
         if (minusOne(nextLast) >= nextFirst || plusOne(nextFirst) <= nextLast) {
             System.arraycopy(items, plusOne(nextFirst), temp, plusOne(nextFirst), size);
             nextLast = (nextFirst + size) % (capacity - 1);
-        }
-        else {
+        } else {
             System.arraycopy(items, 0, temp, 0, nextLast);
-            System.arraycopy(items, nextFirst + 1, temp, capacity - (size - nextLast), size - nextLast);
-            nextFirst = capacity - (size - nextLast) - 1;
+            int length = size - nextLast;
+            System.arraycopy(items, nextFirst + 1, temp, capacity - length, length);
+            nextFirst = capacity - length - 1;
         }
         items = temp;
         System.out.println("Now the length is: " + items.length);
     }
 
     /* Computes the index before a given index.*/
-    int minusOne(int index) {
+    private int minusOne(int index) {
         return index == 0 ? items.length - 1 : index - 1;
     }
 
     /* Computes the index after a given index.*/
-    int plusOne(int index) {
+    private int plusOne(int index) {
         return index == items.length - 1 ? 0 : index + 1;
     }
 
     /* Inserts X into the front of the list.*/
-    public void addFirst(Item x) {
+    public void addFirst(T x) {
         if (plusOne(nextLast) == nextFirst) {
-            resize(items.length * 2);
+            resize(items.length*2);
         }
         items[nextFirst] = x;
         nextFirst = minusOne(nextFirst);
@@ -50,9 +50,9 @@ public class ArrayDeque<Item> {
     }
 
     /* Inserts X into the back of the list.*/
-    public void addLast(Item x) {
+    public void addLast(T x) {
         if (plusOne(nextLast) == nextFirst) {
-            resize(items.length * 2);
+            resize(items.length*2);
         }
         items[nextLast] = x;
         nextLast = plusOne(nextLast);
@@ -78,11 +78,11 @@ public class ArrayDeque<Item> {
     }
 
     /* Removes the first item of the list and returns this item.*/
-    public Item removeFirst() {
+    public T removeFirst() {
         if (size == 0) {
             return null;
         }
-        Item p = items[plusOne(nextFirst)];
+        T p = items[plusOne(nextFirst)];
         items[plusOne(nextFirst)] = null;
         nextFirst = plusOne(nextFirst);
         size -= 1;
@@ -93,11 +93,11 @@ public class ArrayDeque<Item> {
     }
 
     /* Removes the last item of the list and returns this item.*/
-    public Item removeLast() {
+    public T removeLast() {
         if (size == 0) {
             return null;
         }
-        Item p = items[minusOne(nextLast)];
+        T p = items[minusOne(nextLast)];
         items[minusOne(nextLast)] = null;
         nextLast = minusOne(nextLast);
         size -= 1;
@@ -108,17 +108,17 @@ public class ArrayDeque<Item> {
     }
 
     /* Returns the item from the last of the list.*/
-    public Item getLast() {
+    public T getLast() {
         return items[minusOne(nextLast)];
     }
 
     /* Returns the item from the first of the list.*/
-    public Item getFirst() {
+    public T getFirst() {
         return items[plusOne(nextFirst)];
     }
 
     /* Gets the item with required index.*/
-    public Item get(int index) {
+    public T get(int index) {
         if (index >= size || index < 0) {
             return null;
         }
