@@ -117,7 +117,7 @@ public class LinkedListDeque<T> {
     }
 
     /* Same as get, but uses recursion. */
-    private T getRecursive(int index) {
+    public T getRecursive(int index) {
         if (index > size - 1 || index < 0) {
             return null;
         }
@@ -126,7 +126,7 @@ public class LinkedListDeque<T> {
     }
 
     /* Helper method */
-    public T getRecursive(Node n, int index) {
+    private T getRecursive(Node n, int index) {
         if (index == 0) {
             return n.item;
         } else {
@@ -135,4 +135,5 @@ public class LinkedListDeque<T> {
         }
         return getRecursive(n, index);
     }
+
 }

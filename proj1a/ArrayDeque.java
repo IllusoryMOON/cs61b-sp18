@@ -15,8 +15,8 @@ public class ArrayDeque<T> {
     /* Resizes the underlying array deque to the target capacity.*/
     private void resize(int capacity) {
         T[] temp = (T[]) new Object[capacity];
-        System.arraycopy(items, plusOne(nextFirst), temp, 1, items.length - nextFirst -1);
-        if (nextFirst != items.length - 1 && items.length - nextFirst -1 < size) {
+        System.arraycopy(items, plusOne(nextFirst), temp, 1, items.length - nextFirst - 1);
+        if (nextFirst != items.length - 1 && items.length - nextFirst - 1 < size) {
             System.arraycopy(items, 0, temp, items.length - nextFirst, nextLast);
         }
         /*if (minusOne(nextLast) >= nextFirst || plusOne(nextFirst) <= nextLast) {
@@ -46,7 +46,7 @@ public class ArrayDeque<T> {
     /* Inserts X into the front of the list.*/
     public void addFirst(T x) {
         if (plusOne(nextLast) == nextFirst) {
-            resize(items.length*2);
+            resize(items.length * 2);
         }
         items[nextFirst] = x;
         nextFirst = minusOne(nextFirst);
@@ -56,7 +56,7 @@ public class ArrayDeque<T> {
     /* Inserts X into the back of the list.*/
     public void addLast(T x) {
         if (plusOne(nextLast) == nextFirst) {
-            resize(items.length*2);
+            resize(items.length * 2);
         }
         items[nextLast] = x;
         nextLast = plusOne(nextLast);
