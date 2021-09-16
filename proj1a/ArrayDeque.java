@@ -15,9 +15,17 @@ public class ArrayDeque<T> {
     /* Resizes the underlying array deque to the target capacity.*/
     private void resize(int capacity) {
         T[] temp = (T[]) new Object[capacity];
-        System.arraycopy(items, plusOne(nextFirst), temp, 1, items.length - plusOne(nextFirst));
-        if (nextFirst != items.length - 1 && items.length - nextFirst - 1 < size) {
-            System.arraycopy(items, 0, temp, items.length - nextFirst, nextLast);
+        if (size == 0) {
+            nextFirst = 0;
+            nextLast = 1;
+            return;
+        }
+        if (minusOne(nextLast) > plusOne(nextFirst)) {
+            System.arraycopy(items, plusOne(nextFirst), temp, 1, size);
+        } else {
+            int length1 = items.length - nextFirst - 1;
+            System.arraycopy(items, plusOne(nextFirst), temp, 1, length1);
+            System.arraycopy(items, 0, temp, items.length - nextFirst, size - length1);
         }
         items = temp;
         nextFirst = 0;
